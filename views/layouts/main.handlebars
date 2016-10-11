@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</head>
+<body>
+  <form>
+    <label for="config_name">
+      Configuration Name
+      <input id="config_name" type="text" name="config_name">
+    </label>
+    <input type="submit" value="Add New Configuration">
+    </label>
+  </form>
+  <ul>
+    {{#if data}}
+      {{#data}}
+        <li>
+          <p>Config Name: <a class="config_name" href="">{{name}}</a></p>
+          <p>Operating Systems: 
+            {{#each os}}
+              <a href="/{{this.id}}">{{this.name}}</a>
+            {{/each}}</p>
+        </li>
+      {{/data}}
+    {{/if}}
+  </ul>
+</body>
+<script type="text/javascript">
+
+  $("form").on("submit", function(){
+    var $form_data = $("form").serialize();
+    $.ajax({
+      url: "/add",
+      data: $form_data,
+      method: "post",
+      success: function(){
+        console.log("200 OK");
+      }
+    });
+  })
+
+  $("a[class='config_name']").on("click", function(){
+    // name of config
+    var config_name = this.innerHTML;
+
+    $.ajax({
+      url: "/config_info",
+      data: config_name,
+      method: "get",
+      success: function(){
+        console.log("200 OK");
+      }
+    })
+  })
+
+
+
+
+</script>
+</html>
